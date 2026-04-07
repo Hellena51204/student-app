@@ -1,27 +1,36 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CourseController; // Controller mới của chúng ta
+use App\Models\Employee;
+use App\Models\Category;
+use App\Http\Controllers\LessonController;
+use App\Http\Controllers\EnrollmentController;
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/hello', function () {
     return "Hello Laravel";
 });
-// 1. Khai báo sử dụng StudentController (đặt ở gần đầu file, dưới các dòng use khác nếu có)
-use App\Http\Controllers\StudentController;
 
-// 2. Tạo các route cho ứng dụng quản lý sinh viên
-// Khi truy cập /students, gọi hàm index() để hiển thị danh sách
+// --- ROUTES CHO QUẢN LÝ SINH VIÊN ---
 Route::get('/students', [StudentController::class, 'index']);
-
-// Khi truy cập /students/create, gọi hàm create() để hiển thị form thêm mới
 Route::get('/students/create', [StudentController::class, 'create']);
-
-// Route hứng dữ liệu từ Form gửi lên
 Route::post('/students/store', [StudentController::class, 'store']);
 
-use App\Models\Employee;
+// --- ROUTES CHO NHÂN VIÊN ---
+Route::resource('employees', EmployeeController::class);
+Route::get('/dashboard', [EmployeeController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/tao-test', function () {
     Employee::create([
@@ -32,14 +41,9 @@ Route::get('/tao-test', function () {
     return "Đã thêm dữ liệu test thành công!";
 });
 
-use App\Http\Controllers\EmployeeController;
-
-Route::resource('employees', EmployeeController::class);
-// Route cho trang Dashboard (Bài 12)
-Route::get('/dashboard', [App\Http\Controllers\EmployeeController::class, 'dashboard'])->name('dashboard');
-
-
-use App\Models\Category;
+// --- ROUTES CHO SẢN PHẨM ---
+Route::resource('products', ProductController::class);
+Route::get('/dashboard-product', [ProductController::class, 'dashboard'])->name('product.dashboard');
 
 Route::get('/tao-danh-muc', function () {
     Category::create(['name' => 'Điện thoại di động']);
@@ -48,8 +52,26 @@ Route::get('/tao-danh-muc', function () {
     return "Đã tạo 3 danh mục thành công!";
 });
 
-use App\Http\Controllers\ProductController;
+// --- ROUTES CHO HỆ THỐNG QUẢN LÝ KHÓA HỌC (MỚI) ---
 
-Route::resource('products', ProductController::class);
-// Route cho Dashboard Sản Phẩm
-Route::get('/dashboard-product', [App\Http\Controllers\ProductController::class, 'dashboard'])->name('product.dashboard');
+// Lưu ý: 2 route Thùng rác và Khôi phục phải đặt TRÊN Route::resource
+Route::get('/courses-trash', [CourseController::class, 'trash'])->name('courses.trash');
+Route::post('/courses/{id}/restore', [CourseController::class, 'restore'])->name('courses.restore');
+
+// Route CRUD cho Khóa học
+Route::resource('courses', CourseController::class);
+// Route cho quản lý Bài học (Lesson) [cite: 145]
+Route::resource('lessons', App\Http\Controllers\LessonController::class);
+Route::get('/dashboard-cms', [CourseController::class, 'dashboard'])->name('cms.dashboard');
+// Route Dashboard
+Route::get('/dashboard-cms', [CourseController::class, 'dashboard'])->name('cms.dashboard');
+
+// Route Khóa học
+Route::resource('courses', CourseController::class);
+Route::get('/courses-trash', [CourseController::class, 'trash'])->name('courses.trash');
+
+// Route Bài học
+Route::resource('lessons', LessonController::class);
+
+// Route Đăng ký
+Route::resource('enrollments', EnrollmentController::class);
