@@ -1,59 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 Student Management Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Đây là một ứng dụng quản lý sinh viên, khóa học, bài học và quá trình ghi danh được xây dựng bằng Laravel framework.
 
-## About Laravel
+## ✨ Tính năng chính
+- Quản lý Khóa học (Courses)
+- Quản lý Bài học (Lessons) 
+- Quản lý Sinh viên (Students)
+- Quản lý Ghi danh / Học viên tham gia khóa học (Enrollments)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Yêu cầu hệ thống
+Đảm bảo máy tính của bạn đã cài đặt các phần mềm sau:
+- XAMPP / MAMP / WAMP (hoặc bất kỳ phần mềm nào cung cấp PHP >= 8.1 và MySQL/MariaDB)
+- Composer
+- Node.js & npm
+- Git
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Hướng dẫn Cài đặt & Chạy dự án
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Bật XAMPP (hoặc công cụ tương tự) và khởi động 2 module là **Apache** và **MySQL** trước khi bắt đầu.
 
-## Learning Laravel
+### Bước 1: Clone dự án
+Mở terminal/command prompt và sao chép mã nguồn từ GitHub về thư mục làm việc của bạn (ví dụ `C:\xampp\htdocs\`):
+```bash
+git clone https://github.com/Hellena51204/student-app.git
+cd student-app
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Bước 2: Cài đặt các thư viện PHP (Composer dependencies)
+Chạy lệnh sau để cài đặt các thư viện cần thiết của Laravel:
+```bash
+composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Bước 3: Cài đặt các thư viện Frontend (NPM dependencies)
+(Nếu dự án có sử dụng các asset frontend như Vite/Tailwind/Vue...)
+```bash
+npm install
+```
 
-## Laravel Sponsors
+### Bước 4: Thiết lập môi trường (.env)
+Tạo file cấu hình môi trường `.env` từ file mẫu `.env.example`:
+- Windows (PowerShell/CMD): `copy .env.example .env`
+- Mac/Linux: `cp .env.example .env`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Bước 5: Cấu hình cơ sở dữ liệu
+Mở file `.env` vừa tạo và cập nhật lại thông tin kết nối cơ sở dữ liệu cho phù hợp với máy của bạn. Ví dụ đối với XAMPP mặc định:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=student_app    # Tên database bạn muốn tạo
+DB_USERNAME=root           # Mặc định của xampp là root
+DB_PASSWORD=               # Mặc định của xampp là để trống
+```
+*Lưu ý:* Hãy mở phpMyAdmin (`http://localhost/phpmyadmin`) và tạo sẵn một cơ sở dữ liệu trống có tên trùng với `DB_DATABASE` (ví dụ: `student_app`).
 
-### Premium Partners
+### Bước 6: Tạo App Key
+Tạo key bảo mật cho ứng dụng Laravel:
+```bash
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Bước 7: Chạy Migrations (Tạo bảng trong Database)
+Chạy lệnh sau để Laravel tự động tạo các bảng (users, courses, lessons, students, enrollments...) vào cơ sở dữ liệu của bạn:
+```bash
+php artisan migrate
+```
+*(Nếu có dữ liệu mẫu, bạn có thể chạy thêm cờ `--seed`: `php artisan migrate --seed`)*
 
-## Contributing
+### Bước 8: Khởi chạy dự án
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Bây giờ bạn có thể khởi chạy server mô phỏng của Laravel:
+```bash
+php artisan serve
+```
+Dự án sẽ hoạt động tại: **http://127.0.0.1:8000**
 
-## Code of Conduct
+Nếu dự án có giao diện cần build/biên dịch liên tục (như Vite), hãy mở một cửa sổ Terminal mới (giữ cửa sổ `php artisan serve` chạy ngầm) và gõ:
+```bash
+npm run dev
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Dự án phát triển bởi **Hellena51204**. Mọi đóng góp xin vui lòng tạo Pull Request hoặc Issues trên GitHub repository!
