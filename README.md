@@ -67,7 +67,7 @@ Chạy lệnh sau để Laravel tự động tạo các bảng (users, courses, 
 php artisan migrate
 ```
 *(Nếu có dữ liệu mẫu, bạn có thể chạy thêm cờ `--seed`: `php artisan migrate --seed`)*
-
+M
 ### Bước 8: Khởi chạy dự án
 
 Bây giờ bạn có thể khởi chạy server mô phỏng của Laravel:
